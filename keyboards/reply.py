@@ -4,10 +4,9 @@ from aiogram.types import KeyboardButton
 
 def menu_kb() -> ReplyKeyboardMarkup:
     kb = ReplyKeyboardBuilder()
-    kb.button(text='🎁 КОНКУРС НОЖ 🎁')
-    kb.row(KeyboardButton(text='💰 Голда'), KeyboardButton(text='🎯 Кейс'))
-    kb.row(KeyboardButton(text='🚨 Магазин'), KeyboardButton(text='🔪 Топ вывода'))
-    kb.row(KeyboardButton(text='🎒 Мой инвентарь'))
+    kb.button(text='🚲 Начать заезд')
+    kb.button(text='🗂 Мои заезды')
+    kb.row(KeyboardButton(text='📊 Статистика'))
     return kb.as_markup(resize_keyboard=True)
 
 admin_kb = ReplyKeyboardMarkup(

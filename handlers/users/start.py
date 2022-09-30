@@ -11,7 +11,7 @@ router = Router()
 db = Database()
 @router.message(NoReg(), commands=['start'])
 async def not_registered_start(m: Message, command: CommandObject, bot: Bot):
-    await m.answer('Добро пожаловать в бота', reply_markup=menu_kb())
+    await m.answer('Добро пожаловать в бота <b>ВелоТрек!</b>\nВот главное меню:', reply_markup=menu_kb())
     db.register_user(m.from_user.id, m.from_user.username, datetime.datetime.utcnow(), command.args)
     if command.args is not None:
         logging.error(command.args)
@@ -24,6 +24,6 @@ async def not_registered_start(m: Message, command: CommandObject, bot: Bot):
             db.add_income(command.args)
             logging.error('Ref. Svodka')
 
-@router.message(commands=['start'])
+@router.message(commands=['start', 'menu'])
 async def regged_start(m: Message):
-    await m.answer('Добро пожаловать в бота', reply_markup=menu_kb())
+    await m.answer('Главное меню', reply_markup=menu_kb())

@@ -8,3 +8,5 @@ class NoReg(BaseFilter):
         reg = db.exist_user(m.from_user.id)
         if not reg:
             return True
+        else:
+            return False

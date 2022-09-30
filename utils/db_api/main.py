@@ -1,8 +1,8 @@
-import datetime
 import uuid
 import psycopg2
-from config import host, user, password, database
+from data.config import PG_HOST as host, PG_USER as user, PG_PASSWORD as password, PG_DATABASE as database
 import datetime
+import logging
 
 class Database():
 
@@ -12,7 +12,7 @@ class Database():
         sql = '''
         CREATE TABLE IF NOT EXISTS public.users (
     user_id bigint NOT NULL,
-    name character varying(255),
+    username character varying(255),
     balance real DEFAULT 0,
     last_seen timestamp without time zone,
     source character varying(255),
@@ -47,6 +47,30 @@ CREATE TABLE IF NOT EXISTS public.views (
         with self.connection.cursor() as cursor:
             cursor.execute(sql)
 
+    def register_user(self, user_id, username, created_at, source):
+        with self.connection.cursor() as cursor:
+            try:
+                cursor.execute('insert into users(user_id, username, registered_at, source) values(%s, %s, %s, %s)', (user_id, username, created_at, source))
+            except Exception as ex:
+                logging.error(ex)
+                logging.error('User already registered')
+
+    def tip_viewed(self, user_id) -> bool:
+        with self.connection.cursor() as cursor:
+            cursor.execute('select tip from users where user_id = %s', (user_id,))
+            return bool(cursor.fetchone()[0])
+
+    def tip_change(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute('update users set tip = true where user_id = %s', (user_id,))
+
+    def exist_user(self, user_id):
+        with self.connection.cursor() as cursor:
+            cursor.execute('select * from users where user_id = %s', (user_id,))
+            if cursor.fetchone() == None:
+                return False
+            else:
+                return True
     def analyze_registered(self, since: datetime.datetime, untill: datetime.datetime, source: str = ''):
         sql = f"SELECT count(user_id) FROM users WHERE created_at >= %s AND created_at <= %s {source} "
         with self.connection.cursor() as cursor:
