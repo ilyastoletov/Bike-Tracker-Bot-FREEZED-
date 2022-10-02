@@ -5,3 +5,4 @@ class BikeStates(StatesGroup):
     location_start = State()
     ready = State()
     ride = State()
+    registration = State()

@@ -1,7 +1,7 @@
 from aiogram.filters import BaseFilter
-from config import admin
+import data.config as config
 from aiogram.types import Message
 
 class Adm(BaseFilter):
     async def __call__(self, m: Message) -> bool:
-        return m.from_user.id in admin
+        return m.from_user.id in config.ADMINS

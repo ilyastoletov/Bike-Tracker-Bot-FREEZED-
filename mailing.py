@@ -1,6 +1,6 @@
 from aiogram import Bot
 
-import config
+import data.config as config
 import asyncio
 
 

@@ -77,6 +77,8 @@ CREATE TABLE IF NOT EXISTS public.views (
             cursor.execute(sql, (since, untill))
             return int(cursor.fetchall()[0][0])
 
+    def update
+
     def analyze_all(self, active: bool=False):
         with self.connection.cursor() as cursor:
             if active:
